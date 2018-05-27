@@ -2,7 +2,7 @@ package pl.refactoring.dictaphone;
 
 import pl.refactoring.ex_dictaphone.Dictaphone;
 import pl.refactoring.ex_dictaphone.Engine;
-import pl.refactoring.ex_dictaphone.State;
+import pl.refactoring.ex_dictaphone.states.State;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 

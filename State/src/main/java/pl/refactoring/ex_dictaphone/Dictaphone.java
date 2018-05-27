@@ -1,5 +1,7 @@
 package pl.refactoring.ex_dictaphone;
 
+import pl.refactoring.ex_dictaphone.states.State;
+
 /*
  * Invented by Wlodek Krakowski
  */
@@ -7,6 +9,7 @@ public class Dictaphone {
 
     private State prevState;
     private State state;
+
     private Engine engine = new Engine();
 
     public Dictaphone() {
