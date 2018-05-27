@@ -5,13 +5,17 @@ package pl.refactoring.ex_dictaphone;
  * Not Enum on purpose! :-P
  */
 public class State {
-    public static final String OFF = "OFF";
-    public static final String STOPPED = "STOPPED";
-    public static final String PLAYING = "PLAYING";
-    public static final String FORWARD_PLAY_3x = "FORWARD_PLAY_3x";
-    public static final String BACKWARD_PLAY_3x = "BACKWARD_PLAY_3x";
-    public static final String RECORDING = "RECORDING";
-    public static final String PAUSED = "PAUSED";
-    public static final String FAST_FORWARD = "FAST_FORWARD";
-    public static final String REWIND = "REWIND";
+    public static final State OFF_STATE = new State();
+    public static final State STOPPED_STATE = new State();
+    public static final State PLAYING_STATE = new State();
+    public static final State FORWARD_PLAY_3x_STATE = new State();
+    public static final State BACKWARD_3x_STATE = new State();
+    public static final State RECORDING_STATE = new State();
+    public static final State PAUSED_STATE = new State();
+    public static final State FAST_FORWARD_STATE = new State();
+    public static final State REWIND_STATE = new State();
+
+    public State() {
+    }
+
 }

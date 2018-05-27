@@ -5,15 +5,15 @@ package pl.refactoring.ex_dictaphone;
  */
 public class Dictaphone {
 
-    private String prevState;
-    private String state;
+    private State prevState;
+    private State state;
     private Engine engine = new Engine();
 
     public Dictaphone() {
-        this.state = State.OFF;
+        this.state = State.OFF_STATE;
     }
 
-    public String getState() {
+    public State getState() {
         return state;
     }
 
@@ -22,22 +22,22 @@ public class Dictaphone {
     }
 
     public void play() {
-        if (state == State.PLAYING) {
-            state = State.FORWARD_PLAY_3x;
+        if (state == State.PLAYING_STATE) {
+            state = State.FORWARD_PLAY_3x_STATE;
 
             engine.setHead(Engine.HeadState.READING);
             engine.setTapeDirection(Engine.TAPE_FORWARD_3x);
             engine.setMicrophoneOn(false);
             engine.setSpeakersOn(true);
-        } else if (state == State.STOPPED) {
-            state = State.PLAYING;
+        } else if (state == State.STOPPED_STATE) {
+            state = State.PLAYING_STATE;
 
             engine.setHead(Engine.HeadState.READING);
             engine.setTapeDirection(Engine.TAPE_FORWARD);
             engine.setMicrophoneOn(false);
             engine.setSpeakersOn(true);
-        } else if (state == State.FORWARD_PLAY_3x) {
-            state = State.PLAYING;
+        } else if (state == State.FORWARD_PLAY_3x_STATE) {
+            state = State.PLAYING_STATE;
 
             engine.setHead(Engine.HeadState.READING);
             engine.setTapeDirection(Engine.TAPE_FORWARD);
@@ -48,15 +48,15 @@ public class Dictaphone {
 
     public void power() {
 
-        if (state == State.OFF) {
-            state = State.STOPPED;
+        if (state == State.OFF_STATE) {
+            state = State.STOPPED_STATE;
 
             engine.setHead(Engine.HeadState.PUT_AWAY);
             engine.setTapeDirection(Engine.TAPE_STOPPED);
             engine.setMicrophoneOn(false);
             engine.setSpeakersOn(false);
-        } else if (state == State.STOPPED) {
-            state = State.OFF;
+        } else if (state == State.STOPPED_STATE) {
+            state = State.OFF_STATE;
 
             engine.setHead(Engine.HeadState.PUT_AWAY);
             engine.setTapeDirection(Engine.TAPE_STOPPED);
@@ -66,8 +66,8 @@ public class Dictaphone {
     }
 
     public void record() {
-        if (state == State.STOPPED) {
-            state = State.RECORDING;
+        if (state == State.STOPPED_STATE) {
+            state = State.RECORDING_STATE;
 
             engine.setHead(Engine.HeadState.WRITING);
             engine.setTapeDirection(Engine.TAPE_FORWARD);
@@ -77,26 +77,26 @@ public class Dictaphone {
     }
 
     public void pause() {
-        if (state == State.PAUSED) {
+        if (state == State.PAUSED_STATE) {
             state = prevState;
             engine.setTapeDirection(Engine.TAPE_FORWARD);
-        } else if (state == State.PLAYING || state == State.RECORDING) {
+        } else if (state == State.PLAYING_STATE || state == State.RECORDING_STATE) {
             prevState = state;
-            state = State.PAUSED;
+            state = State.PAUSED_STATE;
             engine.setTapeDirection(Engine.TAPE_STOPPED);
         }
     }
 
     public void fastForward() {
-        if (state == State.STOPPED) {
-            state = State.FAST_FORWARD;
+        if (state == State.STOPPED_STATE) {
+            state = State.FAST_FORWARD_STATE;
 
             engine.setHead(Engine.HeadState.PUT_AWAY);
             engine.setTapeDirection(Engine.TAPE_FAST_FORWARD);
             engine.setMicrophoneOn(false);
             engine.setSpeakersOn(false);
-        } else if (state == State.PLAYING) {
-            state = State.FORWARD_PLAY_3x;
+        } else if (state == State.PLAYING_STATE) {
+            state = State.FORWARD_PLAY_3x_STATE;
 
             engine.setHead(Engine.HeadState.READING);
             engine.setTapeDirection(Engine.TAPE_FORWARD_3x);
@@ -106,15 +106,15 @@ public class Dictaphone {
     }
 
     public void rewind() {
-        if (state == State.STOPPED) {
-            state = State.REWIND;
+        if (state == State.STOPPED_STATE) {
+            state = State.REWIND_STATE;
 
             engine.setHead(Engine.HeadState.PUT_AWAY);
             engine.setTapeDirection(Engine.TAPE_FAST_BACKWARD);
             engine.setMicrophoneOn(false);
             engine.setSpeakersOn(false);
-        } else if (state == State.PLAYING) {
-            state = State.BACKWARD_PLAY_3x;
+        } else if (state == State.PLAYING_STATE) {
+            state = State.BACKWARD_3x_STATE;
 
             engine.setHead(Engine.HeadState.READING);
             engine.setTapeDirection(Engine.TAPE_BACKWARD_3x);
@@ -124,8 +124,8 @@ public class Dictaphone {
     }
 
     public void stop() {
-        if (state != State.OFF) {
-            state = State.STOPPED;
+        if (state != State.OFF_STATE) {
+            state = State.STOPPED_STATE;
 
             engine.setHead(Engine.HeadState.PUT_AWAY);
             engine.setTapeDirection(Engine.TAPE_STOPPED);
