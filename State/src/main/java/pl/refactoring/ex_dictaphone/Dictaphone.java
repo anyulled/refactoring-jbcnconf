@@ -13,7 +13,7 @@ public class Dictaphone {
     private Engine engine = new Engine();
 
     public Dictaphone() {
-        this.state = State.OFF_STATE;
+        this.setState(State.OFF_STATE);
     }
 
     public State getState() {
@@ -24,116 +24,80 @@ public class Dictaphone {
         return engine;
     }
 
-    public void play() {
-        if (state == State.PLAYING_STATE) {
-            state = State.FORWARD_PLAY_3x_STATE;
+    public void moveEngineWithHeadPutAway(int tapeDirection) {
+        engine.moveEngineWithHeadPutAway(tapeDirection);
+    }
 
-            engine.setHead(Engine.HeadState.READING);
-            engine.setTapeDirection(Engine.TAPE_FORWARD_3x);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(true);
-        } else if (state == State.STOPPED_STATE) {
-            state = State.PLAYING_STATE;
+    public void moveEngineWithHeadReading(int tapeDirection) {
+        engine.moveEngineWithHeadReading(tapeDirection);
+    }
 
-            engine.setHead(Engine.HeadState.READING);
-            engine.setTapeDirection(Engine.TAPE_FORWARD);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(true);
-        } else if (state == State.FORWARD_PLAY_3x_STATE) {
-            state = State.PLAYING_STATE;
+    public void moveEngineWithHeadWriting() {
+        engine.moveEngineWithHeadWriting();
+    }
 
-            engine.setHead(Engine.HeadState.READING);
-            engine.setTapeDirection(Engine.TAPE_FORWARD);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(true);
-        }
+    public boolean isInState(State state) {
+        return this.state == state;
     }
 
     public void power() {
+        state.handlePower(this);
+    }
 
-        if (state == State.OFF_STATE) {
-            state = State.STOPPED_STATE;
-
-            engine.setHead(Engine.HeadState.PUT_AWAY);
-            engine.setTapeDirection(Engine.TAPE_STOPPED);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(false);
-        } else if (state == State.STOPPED_STATE) {
-            state = State.OFF_STATE;
-
-            engine.setHead(Engine.HeadState.PUT_AWAY);
-            engine.setTapeDirection(Engine.TAPE_STOPPED);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(false);
-        }
+    public void play() {
+        state.handlePlay(this);
     }
 
     public void record() {
-        if (state == State.STOPPED_STATE) {
-            state = State.RECORDING_STATE;
+        state.handleRecord(this);
+    }
 
-            engine.setHead(Engine.HeadState.WRITING);
-            engine.setTapeDirection(Engine.TAPE_FORWARD);
-            engine.setMicrophoneOn(true);
-            engine.setSpeakersOn(false);
-        }
+    public void stop() {
+        state.handleStop(this);
     }
 
     public void pause() {
-        if (state == State.PAUSED_STATE) {
-            state = prevState;
+        if (isInState(State.PAUSED_STATE)) {
+            setState(getPrevState());
             engine.setTapeDirection(Engine.TAPE_FORWARD);
-        } else if (state == State.PLAYING_STATE || state == State.RECORDING_STATE) {
-            prevState = state;
-            state = State.PAUSED_STATE;
+        } else if (isInState(State.PLAYING_STATE) || isInState(State.RECORDING_STATE)) {
+            setPrevState(getState());
+            setState(State.PAUSED_STATE);
             engine.setTapeDirection(Engine.TAPE_STOPPED);
         }
     }
 
     public void fastForward() {
-        if (state == State.STOPPED_STATE) {
-            state = State.FAST_FORWARD_STATE;
+        if (isInState(State.STOPPED_STATE)) {
+            setState(State.FAST_FORWARD_STATE);
+            moveEngineWithHeadPutAway(Engine.TAPE_FAST_FORWARD);
+        } else if (isInState(State.PLAYING_STATE)) {
+            setState(State.FORWARD_PLAY_3x_STATE);
 
-            engine.setHead(Engine.HeadState.PUT_AWAY);
-            engine.setTapeDirection(Engine.TAPE_FAST_FORWARD);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(false);
-        } else if (state == State.PLAYING_STATE) {
-            state = State.FORWARD_PLAY_3x_STATE;
-
-            engine.setHead(Engine.HeadState.READING);
-            engine.setTapeDirection(Engine.TAPE_FORWARD_3x);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(true);
+            moveEngineWithHeadReading(Engine.TAPE_FORWARD_3x);
         }
     }
 
     public void rewind() {
-        if (state == State.STOPPED_STATE) {
-            state = State.REWIND_STATE;
-
-            engine.setHead(Engine.HeadState.PUT_AWAY);
-            engine.setTapeDirection(Engine.TAPE_FAST_BACKWARD);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(false);
-        } else if (state == State.PLAYING_STATE) {
-            state = State.BACKWARD_3x_STATE;
-
-            engine.setHead(Engine.HeadState.READING);
-            engine.setTapeDirection(Engine.TAPE_BACKWARD_3x);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(true);
+        if (isInState(State.STOPPED_STATE)) {
+            setState(State.REWIND_STATE);
+            moveEngineWithHeadPutAway(Engine.TAPE_FAST_BACKWARD);
+        } else if (isInState(State.PLAYING_STATE)) {
+            setState(State.BACKWARD_3x_STATE);
+            moveEngineWithHeadReading(Engine.TAPE_BACKWARD_3x);
         }
     }
 
-    public void stop() {
-        if (state != State.OFF_STATE) {
-            state = State.STOPPED_STATE;
-
-            engine.setHead(Engine.HeadState.PUT_AWAY);
-            engine.setTapeDirection(Engine.TAPE_STOPPED);
-            engine.setMicrophoneOn(false);
-            engine.setSpeakersOn(false);
-        }
+    public State getPrevState() {
+        return prevState;
     }
+
+    public void setPrevState(State prevState) {
+        this.prevState = prevState;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
 }

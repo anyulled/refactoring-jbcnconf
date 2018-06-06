@@ -1,10 +1,13 @@
 package pl.refactoring.ex_dictaphone.states;
 
+import pl.refactoring.ex_dictaphone.Dictaphone;
+import pl.refactoring.ex_dictaphone.Engine;
+
 /*
  * Invented by Wlodek Krakowski
  * Not Enum on purpose! :-P
  */
-public class State {
+public abstract class State {
     public static final State OFF_STATE = new OffState();
     public static final State STOPPED_STATE = new StoppedState();
     public static final State PLAYING_STATE = new PlayingState();
@@ -18,4 +21,19 @@ public class State {
     public State() {
     }
 
+    public void handlePower(Dictaphone dictaphone){
+        // Please override if required
+    };
+
+    public void handlePlay(Dictaphone dictaphone){
+        // Please override if required
+    };
+
+    public void handleRecord(Dictaphone dictaphone){
+        // Please override if required
+    };
+
+    public void handleStop(Dictaphone dictaphone){
+        // Please override if required
+    };
 }

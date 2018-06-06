@@ -14,6 +14,27 @@ public class Engine {
    public static final int TAPE_FAST_FORWARD = 10;
    public static final int TAPE_FAST_BACKWARD = -10;
 
+   void moveEngineWithHeadPutAway(int tapeDirection) {
+       setTapeDirection(tapeDirection);
+       setHead(HeadState.PUT_AWAY);
+       setMicrophoneOn(false);
+       setSpeakersOn(false);
+   }
+
+   void moveEngineWithHeadReading(int tapeDirection) {
+       setTapeDirection(tapeDirection);
+       setHead(HeadState.READING);
+       setMicrophoneOn(false);
+       setSpeakersOn(true);
+   }
+
+   void moveEngineWithHeadWriting() {
+       setTapeDirection(TAPE_FORWARD);
+       setHead(HeadState.WRITING);
+       setMicrophoneOn(true);
+       setSpeakersOn(false);
+   }
+
    public enum HeadState {
       PUT_AWAY, READING, WRITING
    }
