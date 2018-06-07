@@ -21,4 +21,16 @@ public class StoppedState extends State {
         dictaphone.setState(RECORDING_STATE);
         dictaphone.moveEngineWithHeadWriting();
     }
+
+    @Override
+    public void handleFastForward(Dictaphone dictaphone) {
+        dictaphone.setState(FAST_FORWARD_STATE);
+        dictaphone.moveEngineWithHeadPutAway(Engine.TAPE_FAST_FORWARD);
+    }
+
+    @Override
+    public void handleRewind(Dictaphone dictaphone) {
+        dictaphone.setState(REWIND_STATE);
+        dictaphone.moveEngineWithHeadPutAway(Engine.TAPE_FAST_BACKWARD);
+    }
 }

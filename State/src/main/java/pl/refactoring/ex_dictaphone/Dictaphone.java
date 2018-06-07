@@ -36,6 +36,10 @@ public class Dictaphone {
         engine.moveEngineWithHeadWriting();
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public boolean isInState(State state) {
         return this.state == state;
     }
@@ -68,24 +72,11 @@ public class Dictaphone {
     }
 
     public void fastForward() {
-        if (isInState(State.STOPPED_STATE)) {
-            setState(State.FAST_FORWARD_STATE);
-            moveEngineWithHeadPutAway(Engine.TAPE_FAST_FORWARD);
-        } else if (isInState(State.PLAYING_STATE)) {
-            setState(State.FORWARD_PLAY_3x_STATE);
-
-            moveEngineWithHeadReading(Engine.TAPE_FORWARD_3x);
-        }
+        state.handleFastForward(this);
     }
 
     public void rewind() {
-        if (isInState(State.STOPPED_STATE)) {
-            setState(State.REWIND_STATE);
-            moveEngineWithHeadPutAway(Engine.TAPE_FAST_BACKWARD);
-        } else if (isInState(State.PLAYING_STATE)) {
-            setState(State.BACKWARD_3x_STATE);
-            moveEngineWithHeadReading(Engine.TAPE_BACKWARD_3x);
-        }
+        state.handleRewind(this);
     }
 
     public State getPrevState() {
@@ -94,10 +85,6 @@ public class Dictaphone {
 
     public void setPrevState(State prevState) {
         this.prevState = prevState;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
 }

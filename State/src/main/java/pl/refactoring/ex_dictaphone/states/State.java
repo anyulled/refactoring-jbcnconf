@@ -36,4 +36,12 @@ public abstract class State {
     public void handleStop(Dictaphone dictaphone){
         // Please override if required
     };
+
+    public void handleFastForward(Dictaphone dictaphone){
+        // Please override if required
+    };
+
+    public void handleRewind(Dictaphone dictaphone){
+        // Please override if required
+    };
 }
