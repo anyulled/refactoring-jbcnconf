@@ -41,7 +41,7 @@ public class Dictaphone {
     }
 
     public boolean isInState(State state) {
-        return this.state == state;
+        return this.state.getClass().isAssignableFrom(state.getClass());
     }
 
     public void power() {
