@@ -6,17 +6,12 @@ import pl.refactoring.ex_dictaphone.states.State;
  * Invented by Wlodek Krakowski
  */
 public class Dictaphone {
-
     private State state;
 
     private Engine engine = new Engine();
 
     public Dictaphone() {
         this.setState(State.OFF_STATE);
-    }
-
-    public State getState() {
-        return state;
     }
 
     public Engine getEngine() {
