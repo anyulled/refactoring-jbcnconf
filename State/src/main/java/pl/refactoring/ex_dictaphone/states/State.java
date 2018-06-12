@@ -44,4 +44,8 @@ public abstract class State {
     public void handleRewind(Dictaphone dictaphone){
         // Please override if required
     };
+
+    public void handlePause(Dictaphone dictaphone){
+        // Please override if required
+    }
 }

@@ -28,4 +28,11 @@ public class PlayingState extends State {
         dictaphone.setState(BACKWARD_3x_STATE);
         dictaphone.moveEngineWithHeadReading(Engine.TAPE_BACKWARD_3x);
     }
+
+    @Override
+    public void handlePause(Dictaphone dictaphone) {
+        PausedState pausedState = new PausedState(this);
+        dictaphone.setState(pausedState);
+        dictaphone.moveEngineWithCurrentHead(Engine.TAPE_STOPPED);
+    }
 }

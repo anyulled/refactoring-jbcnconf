@@ -11,4 +11,10 @@ public class RecordingState extends State {
         dictaphone.moveEngineWithHeadPutAway(Engine.TAPE_STOPPED);
     }
 
+    @Override
+    public void handlePause(Dictaphone dictaphone) {
+        PausedState pausedState = new PausedState(this);
+        dictaphone.setState(pausedState);
+        dictaphone.moveEngineWithCurrentHead(Engine.TAPE_STOPPED);
+    }
 }

@@ -22,7 +22,7 @@ public class DictaphoneAssertions extends AbstractAssert<DictaphoneAssertions, D
     private void isInState(State state) {
         Assertions.assertThat(actual.getState())
                 .overridingErrorMessage("Expected states is <%s> but was <%s>", state, actual.getState())
-                .isEqualTo(state);
+                .isInstanceOf(state.getClass());
     }
 
     private void isHeadInState(Engine.HeadState headState) {

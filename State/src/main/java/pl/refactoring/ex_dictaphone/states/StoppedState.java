@@ -33,4 +33,5 @@ public class StoppedState extends State {
         dictaphone.setState(REWIND_STATE);
         dictaphone.moveEngineWithHeadPutAway(Engine.TAPE_FAST_BACKWARD);
     }
+
 }

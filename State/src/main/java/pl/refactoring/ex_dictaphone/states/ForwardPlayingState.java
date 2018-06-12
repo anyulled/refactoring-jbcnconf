@@ -16,5 +16,4 @@ public class ForwardPlayingState extends State {
         dictaphone.setState(STOPPED_STATE);
         dictaphone.moveEngineWithHeadPutAway(Engine.TAPE_STOPPED);
     }
-
 }

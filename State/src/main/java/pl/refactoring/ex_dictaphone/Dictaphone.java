@@ -7,7 +7,6 @@ import pl.refactoring.ex_dictaphone.states.State;
  */
 public class Dictaphone {
 
-    private State prevState;
     private State state;
 
     private Engine engine = new Engine();
@@ -36,12 +35,12 @@ public class Dictaphone {
         engine.moveEngineWithHeadWriting();
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void moveEngineWithCurrentHead(int tapeDirection) {
+        engine.setTapeDirection(tapeDirection);
     }
 
-    public boolean isInState(State state) {
-        return this.state.getClass().isAssignableFrom(state.getClass());
+    public void setState(State state) {
+        this.state = state;
     }
 
     public void power() {
@@ -60,17 +59,6 @@ public class Dictaphone {
         state.handleStop(this);
     }
 
-    public void pause() {
-        if (isInState(State.PAUSED_STATE)) {
-            setState(getPrevState());
-            engine.setTapeDirection(Engine.TAPE_FORWARD);
-        } else if (isInState(State.PLAYING_STATE) || isInState(State.RECORDING_STATE)) {
-            setPrevState(getState());
-            setState(State.PAUSED_STATE);
-            engine.setTapeDirection(Engine.TAPE_STOPPED);
-        }
-    }
-
     public void fastForward() {
         state.handleFastForward(this);
     }
@@ -79,12 +67,8 @@ public class Dictaphone {
         state.handleRewind(this);
     }
 
-    public State getPrevState() {
-        return prevState;
-    }
-
-    public void setPrevState(State prevState) {
-        this.prevState = prevState;
+    public void pause() {
+        this.state.handlePause(this);
     }
 
 }
